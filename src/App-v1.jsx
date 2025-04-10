@@ -7,7 +7,7 @@ function createRandomPost() {
     body: faker.hacker.phrase(),
   };
 }
-//1) CREATE A CONTEXT 
+//1) CREATE A CONTEXT
 const PostContext = createContext();
 function App() {
   const [posts, setPosts] = useState(() =>
@@ -44,15 +44,15 @@ function App() {
 
   return (
     //2) PROVIDE VALUE TO CHILD COMPONENTS
-    <PostContext.Provider value={{
-      posts: searchedPosts,
-      onAddPost: handleAddPost,
-      onClearPosts: handleClearPosts,
-      searchQuery,
-      setSearchQuery
-
-
-    }}>
+    <PostContext.Provider
+      value={{
+        posts: searchedPosts,
+        onAddPost: handleAddPost,
+        onClearPosts: handleClearPosts,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
       <section>
         <button
           onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
@@ -61,9 +61,8 @@ function App() {
           {isFakeDark ? "☀️" : "🌙"}
         </button>
 
-        <Header
-/>
-        <Main  />
+        <Header />
+        <Main />
         <Archive />
         <Footer />
       </section>
@@ -73,18 +72,16 @@ function App() {
 
 function Header() {
   //3) CONSUMING CONTEXT VALUE
-  const {onClearPosts} = useContext(PostContext)
- 
+  const { onClearPosts } = useContext(PostContext);
+
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results  />
-        <SearchPosts
-         
-        />
+        <Results />
+        <SearchPosts />
         <button onClick={onClearPosts}>Clear posts</button>
       </div>
     </header>
@@ -93,7 +90,7 @@ function Header() {
 
 function SearchPosts() {
   //3) CONSUMING CONTEXT VALUE
-  const {searchQuery, setSearchQuery} =useContext(PostContext) 
+  const { searchQuery, setSearchQuery } = useContext(PostContext);
   return (
     <input
       value={searchQuery}
@@ -104,12 +101,11 @@ function SearchPosts() {
 }
 
 function Results() {
-  const {posts} = useContext(PostContext)
+  const { posts } = useContext(PostContext);
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
 function Main() {
- 
   return (
     <main>
       <FormAddPost />
@@ -119,7 +115,6 @@ function Main() {
 }
 
 function Posts() {
-  
   return (
     <section>
       <List />
@@ -128,7 +123,7 @@ function Posts() {
 }
 
 function FormAddPost() {
-  const { onAddPost}=useContext(PostContext)
+  const { onAddPost } = useContext(PostContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -158,7 +153,7 @@ function FormAddPost() {
 }
 
 function List() {
-  const {posts} = useContext(PostContext)
+  const { posts } = useContext(PostContext);
   return (
     <ul>
       {posts.map((post, i) => (
@@ -172,7 +167,7 @@ function List() {
 }
 
 function Archive() {
-  const {onAddPost} = useContext(PostContext)
+  const { onAddPost } = useContext(PostContext);
   // Here we don't need the setter function. We're only using state to store these posts because the callback function passed into useState (which generates the posts) is only called once, on the initial render. So we use this trick as an optimization technique, because if we just used a regular variable, these posts would be re-created on every render. We could also move the posts outside the components, but I wanted to show you this trick 😉
   const [posts] = useState(() =>
     // 💥 WARNING: This might make your computer slow! Try a smaller `length` first
