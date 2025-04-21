@@ -1,10 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.css";
-import App from "./App.jsx";
+
+import AppMemo from "./App-Memo.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <AppMemo />
   </StrictMode>
 );
